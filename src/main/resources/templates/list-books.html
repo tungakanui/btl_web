@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <title>All Books</title>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          rel="stylesheet">
+
+</head>
+<body>
+<div th:insert="comman/header :: header"></div>
+<div class="container my-2">
+
+    <div class="container my-5" th:switch="${books}">
+        <p class="my-5" sec:authorize="isAuthenticated()">
+            <a class="btn btn-dark" href="/add"> <i
+                    class="fas fa-user-plus ml-2"> Add Book </i></a>&nbsp;&nbsp;
+        </p>
+        <div class="col-md-12">
+            <h2 th:case="null">No record found !!</h2>
+            <div th:case="*">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Book Name</th>
+                        <th>Author</th>
+                        <th>Description</th>
+                        <th>Published Date</th>
+                        <th>Total Page</th>
+                        <th>Category</th>
+                        <th sec:authorize="isAuthenticated()">Detail</th>
+                        <th sec:authorize="isAuthenticated()">Edit</th>
+                        <th sec:authorize="isAuthenticated()">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.id}"></td>
+                        <td th:text="${book.name}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.description}"></td>
+                        <td th:text="${book.publishDate}"></td>
+                        <td th:text="${book.totalPage}"></td>
+                        <td th:text="${book.category}"></td>
+                        <td sec:authorize="isAuthenticated()"><a class="btn btn-info"
+                                                                 th:href="@{/book/{id}(id=${book.id})}"><i
+                                class="fas fa-marker ml-2"></i></a>
+                        </td>
+                        <td sec:authorize="isAuthenticated()"><a class="btn btn-warning"
+                                                                 th:href="@{/update/{id}(id=${book.id})}"><i
+                                class="fas fa-user-edit ml-2"></i></a></td>
+                        <td sec:authorize="isAuthenticated()"><a class="btn btn-danger"
+                                                                 th:href="@{/remove-book/{id}(id=${book.id})}"><i
+                                class="fas fa-user-times ml-2"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pagination" th:each="pageNumber : ${pageNumbers}"
+                     th:if="${books.totalPages > 0}">
+                    <a th:class="${pageNumber==books.number + 1} ? active"
+                       th:href="@{/books(size=${books.size}, page=${pageNumber})}"
+                       th:text=${pageNumber}></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="comman/footer :: footer"></div>
+</body>
+
+</html>

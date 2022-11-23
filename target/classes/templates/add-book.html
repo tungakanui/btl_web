@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <title>Add Book</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          rel="stylesheet">
+</head>
+
+<body>
+<div th:insert="comman/header :: header"></div>
+
+<div class="container my-5">
+    <h3>Add Book</h3>
+    <div class="card">
+        <div class="card-body, row">
+            <div class="col-md-6">
+                <form action="#" method="post" th:action="@{/add-book}"
+                      th:object="${book}">
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label" for="name">name</label> <input
+                                class="form-control" id="name" placeholder="name" th:field="*{name}"
+                                type="text"/> <span
+                                th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label" for="author">Book author</label> <input
+                                class="form-control" id="author" placeholder="Book author" th:field="*{author}"
+                                type="text"/>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="col-form-label" for="description">description</label>
+                            <textarea class="form-control" height="300px" id="description"
+                                      placeholder="Description" rows="5" th:field="*{description}"
+                                      type="text"></textarea>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label" for="publishDate">publishDate</label>
+                            <input class="form-control" id="publishDate"
+                                   placeholder="publishDate" th:field="*{publishDate}" type="text"/>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label" for="totalPage">totalPage</label>
+                            <input class="form-control" id="totalPage"
+                                   placeholder="totalPage" th:field="*{totalPage}" type="text"/>
+                        </div>
+
+
+                        <div class="form-group col-md-8">
+                            <label class="col-form-label" for="category">Category</label> <select
+                                class="form-control" th:field="*{category}">
+                            <option th:each="category: ${categories}"
+                                    th:text="${category.name}" th:value="${category.name}"></option>
+                        </select>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <input class="btn btn-success" type="submit" value=" Submit ">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <section class="my-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 mx-auto">
+                            <h2>Upload Image Example</h2>
+                            <p class="alert alert-primary" th:if="${msg ne null}" th:object="${book}" th:text="${msg}"></p>
+                            <form enctype="multipart/form-data" method="post" th:action="@{/upload}">
+                                <div class="form-group">
+                                    <input accept="image/*" class="form-control-file" name="image" type="file">
+                                </div>
+                                <button class="btn btn-primary" type="submit">Upload image</button>
+                            </form>
+                            <span th:if="${msg != null}" th:text="${msg}"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div th:insert="comman/footer :: footer"></div>
+</body>
+
+</html>
